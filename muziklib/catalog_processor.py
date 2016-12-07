@@ -4,7 +4,7 @@ import file_object
 import entry
 
 
-class CatalogProcessor:
+class CatalogProcessor(object):
 
     def __init__(self, filepath='.', filename='samplecat.txt'):
         self.filepath = filepath

@@ -10,7 +10,7 @@ http://mancoosi.org/~abate/command-line-parsing-python
 import argparse
 
 
-class CliParser:
+class CliParser(object):
 
     """
     A simple wrapper for the argparse parser.
