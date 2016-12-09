@@ -47,12 +47,16 @@ class Library(object):
             file_object = FileObject(filename)
             lines = file_object.file.readlines()
             for line in lines:
-                line = line.strip()
-                tokens = line.split("|")
-                entry = Entry(tokens[0],
-                              tokens[1],
-                              tokens[2],
-                              line)
-                entries.append(entry)
+                entries.append(self._build_entry(line))
 
         return entries
+
+    def _build_entry(self, line):
+        line = line.strip()
+        tokens = line.split("|")
+        entry = Entry(tokens[0],
+                      tokens[1],
+                      tokens[2],
+                      line)
+        return entry
+        
