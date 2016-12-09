@@ -13,27 +13,25 @@ TODO
 """
 
 from operator import attrgetter
-from cli_parser import CliParser
-from catalog_processor import CatalogProcessor
+from argparse import ArgumentParser
+from library import Library
 
 
-def processor(filepath, filename, isconfig):
+def build_argparse():
 
-    proc = CatalogProcessor(filepath, filename)
-    entries = proc.generate_entries()
-    entries = sorted(entries, key=attrgetter('artist', 'year'))
-
-    return entries
-
+    cli = ArgumentParser()
+    cli.add_argument('--path',
+                     required=True,
+                     help='a path to the file representing a music library')
+    return cli
 
 def main():
 
-    cli = CliParser(description='music catalog processor')
-    parser = cli.retrieve_parser()
-    args = parser.parse_args()
+    cli = build_argparse()
+    args = cli.parse_args()
 
-    proc = CatalogProcessor(args.filepath, args.filename)
-    entries = proc.generate_entries()
+    library = Library([args.path])
+    entries = library.load()
     entries = sorted(entries, key=attrgetter('artist', 'year'))
 
     for entry in entries:
