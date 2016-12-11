@@ -12,6 +12,7 @@ TODO
 6. dynamically determine album input tokens
 """
 
+import os
 from operator import attrgetter
 from argparse import ArgumentParser
 from library import Library
@@ -25,12 +26,25 @@ def build_argparse():
                      help='a path to the file representing a music library')
     return cli
 
+def get_filepaths(path):
+    file_paths = []
+    if os.path.isfile(path):
+        file_paths.append(path)
+    else:
+        for root, _, files in os.walk(path):
+            for filename in files:
+                filepath = os.path.join(root, filename)
+                file_paths.append(filepath)  # Add it to the list.
+    return file_paths
+
 def main():
 
     cli = build_argparse()
     args = cli.parse_args()
 
-    library = Library([args.path])
+    files = get_filepaths(args.path)
+
+    library = Library(files)
     entries = library.load()
     entries = sorted(entries, key=attrgetter('artist', 'year'))
 
