@@ -19,7 +19,9 @@ from library import Library
 
 
 def build_argparse():
-
+    """
+    Build a command line parser.
+    """
     cli = ArgumentParser()
     cli.add_argument('--path',
                      required=True,
@@ -27,6 +29,12 @@ def build_argparse():
     return cli
 
 def get_filepaths(path):
+    """
+    This function will generate the file names in a directory
+    tree by walking the tree either top-down or bottom-up. For each
+    directory in the tree rooted at directory top (including top itself),
+    it yields a 3-tuple (dirpath, dirnames, filenames).
+    """
     file_paths = []
     if os.path.isfile(path):
         file_paths.append(path)
@@ -38,7 +46,10 @@ def get_filepaths(path):
     return file_paths
 
 def main():
-
+    """
+    The core entry point.
+    """
+    
     cli = build_argparse()
     args = cli.parse_args()
 
