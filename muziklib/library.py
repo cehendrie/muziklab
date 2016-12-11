@@ -4,7 +4,7 @@ library.py
 
 class FileObject(object):
     """
-    A simple file object.
+    A simple file object that cleans up after itself.
     """
 
     def __init__(self, filename):
@@ -17,7 +17,7 @@ class FileObject(object):
 
 class Entry(object):
     """
-    A container to hold one music catalog entry.
+    A container to hold one music library entry.
     """
 
     def __init__(self, artist, album, year, raw):
@@ -28,22 +28,29 @@ class Entry(object):
         self.raw = raw
 
     def __str__(self):
-        return "Entry [artist: {0}, album: {1}, year: {2}]".format(self.artist, self.album, self.year)
+        return "Entry [artist: {0}, album: {1}, year: {2}]".format(
+            self.artist,
+            self.album,
+            self.year)
 
 
 class Library(object):
     """
-    A library.
+    A music library loaed from a text file.
     """
 
     def __init__(self, files):
         self.files = files
 
     def load(self):
+        """
+        Parse a list of files representing a music library.
+        """
 
         entries = []
 
         for filename in self.files:
+            print("[Info] loading libary: {0}".format(filename))
             file_object = FileObject(filename)
             lines = file_object.file.readlines()
             for line in lines:
