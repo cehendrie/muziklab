@@ -10,4 +10,4 @@ TODO
 * format should be validated against a known list of formats
 * validation for one file at a time
 * possibly add a config to define the entry's format
-
+* better logging (i.e. there is none)
