@@ -54,16 +54,20 @@ class Library(object):
             file_object = FileObject(filename)
             lines = file_object.file.readlines()
             for line in lines:
-                entries.append(self._build_entry(line))
+                line = line.strip()
+                if len(line) > 0:
+                    entries.append(self._build_entry(line))
 
         return entries
 
     def _build_entry(self, line):
         line = line.strip()
         tokens = line.split("|")
-        entry = Entry(tokens[0],
-                      tokens[1],
-                      tokens[2],
+        if len(tokens) < 3:
+            raise Exception("invalid number of tokens: {0}, line: {1}".format(len(tokens), line))
+        entry = Entry(tokens[0].strip(),
+                      tokens[1].strip(),
+                      tokens[2].strip(),
                       line)
         return entry
         
