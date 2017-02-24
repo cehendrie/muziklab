@@ -18,7 +18,11 @@ def build_argparse():
     cli.add_argument('--path',
                      required=True,
                      help='a path to the file representing a music library')
+    cli.add_argument('--test',
+                     action='store_true',
+                     help='a flag for validating a single file')
     return cli
+
 
 def get_filepaths(path):
     """
@@ -38,22 +42,34 @@ def get_filepaths(path):
                     file_paths.append(filepath)  # Add it to the list.
     return file_paths
 
+
 def main():
     """
     The core entry point.
     """
-    
     cli = build_argparse()
     args = cli.parse_args()
 
     files = get_filepaths(args.path)
 
-    library = Library(files)
-    entries = library.load()
-    entries = sorted(entries, key=attrgetter('artist', 'year'))
+    if args.test is False:
+        library = Library(files)
+        entries = library.load()
+        entries = sorted(entries, key=attrgetter('artist', 'year'))
+        for entry in entries:
+            print(entry.raw)
+    else:
+        if len(files) > 1:
+            print("[Error] unable to test multiple files: {0}".format(len(files)))
+            exit(1)
+        else:
+            library = Library(files)
+            error = library.validate()
+            if len(error) > 0:
+                print("[Error] invalid file")
 
-    for entry in entries:
-        print(entry.raw)
+    exit(0)
+
 
 if __name__ == '__main__':
     main()

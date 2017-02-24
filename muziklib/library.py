@@ -60,6 +60,13 @@ class Library(object):
 
         return entries
 
+    def validate(self):
+        """
+        Determine if the music file contains an invalie entries
+        """
+        print('[Info] validating file...')
+        return []
+
     def _build_entry(self, line):
         line = line.strip()
         tokens = line.split("|")
